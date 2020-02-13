@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: day4mkpod1
+    x: mkjenkins
+  name: day4mkpod1
+  namespace: mkp
+spec:
+  containers:
+  - image: puskumar/buildwebapp2:v1
+    name: day4mkpod1
+    ports: 
+     - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: day4mkjensvc
+  name: day4mkjensvc
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: day4mkjensvc
+    x: mkjenkins # same as pod label
+  type: NodePort
+status:
+  loadBalancer: {}
